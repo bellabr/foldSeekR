@@ -1,0 +1,14 @@
+Package: foldSeekR
+Type: Package
+Title: Integrates FoldSeek with R for efficient and sensitive comparisons of protein structures
+Version: 0.1.0
+Authors@R: person("Annabella", "Bregazzi", , "annabella.bregazzi@mail.utoronto.ca", role = "cre")
+Maintainer: Annabella Bregazzi <annabella.bregazzi@mail.utoronto.ca>
+Description: Adds a simple workflow for using FoldSeek in R to enable fast protein structure comparisons.
+    This includes submitting search and clustering jobs for single-chain and multi-chain polymers, visualizing protein structures and specific alignment matches, and using/creating custom databases.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.2
+Depends: R (>= 4.4.1)
