@@ -4,7 +4,7 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of foldSeekR is to enable integration of FoldSeek to R for efficient
+The goal of foldSeekR is to enable integration of FoldSeek (https://www.foldseek.com) to R for efficient
 protein architecture comparisons.
 
 ## Installation
