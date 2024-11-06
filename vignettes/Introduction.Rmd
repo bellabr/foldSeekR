@@ -76,7 +76,7 @@ But this data is pretty messy! And how much of it is useful? These functions pri
 The currently built comparison feature is visualization.
 
 ```{r}
-foldSeekR::visualize_prediction(qualifier = uniprot_accession)
+foldSeekR::visualize_prediction(qualifier = uniprot_accession, cache=BiocFileCache())
 ```
 
 This is the structure of the protein of interest. You can move the POV around with your cursor and resize the protein to get a closer look at the folds.
