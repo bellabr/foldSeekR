@@ -1,0 +1,110 @@
+---
+title: "Introduction to FoldSeek"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+library(knitr)
+opts_chunk$set(fig.align = "center", 
+               out.width = "90%",
+               fig.width = 6, fig.height = 5.5,
+               dev.args=list(pointsize=10),
+               par = TRUE, # needed for setting hook 
+               collapse = TRUE, # collapse input & ouput code in chunks
+               warning = FALSE)
+knit_hooks$set(par = function(before, options, envir)
+  { if(before && options$fig.show != "none") 
+       par(family = "sans", mar=c(4.1,4.1,1.1,1.1), mgp=c(3,1,0), tcl=-0.5)
+})
+set.seed(1) # for exact reproducibility
+```
+
+## Introduction
+
+`foldSeekR` is an R package developed to simplify protein architecture comparison workflow using AlphaFold and FoldSeek. **This document gives a tour of TestingPackage (version 0.1.0)**. It was written in R Markdown, using the [knitr](https://cran.r-project.org/package=knitr) package for production. See `help(package = "foldSeekR")` for further details. 
+
+To download **foldSeekR**, use the following commands:
+
+``` r
+require("devtools")
+devtools::install_github("bellabr/foldSeekR", build_vignettes = TRUE)
+library("foldSeekR")
+```
+To list all sample functions available in the package:
+``` r
+ls("package:foldSeekR")
+```
+
+## Getting Started
+
+```{r setup}
+library(foldSeekR)
+```
+
+Let's take a look at a significant protein in clozapine-induced myocarditis.
+
+Using the Uniprot accession of interest for this protein, you can pull the AlphaFold prediction.
+
+```{r}
+uniprot_accession = "Q40674"
+
+foldSeekR::pull_prediction(qualifier = uniprot_accession)[[1]]
+```
+
+So this is the link to get the PDB for this protein! Now we know!  https://alphafold.ebi.ac.uk/files/AF-Q40674-F1-model_v4.pdb 
+
+It's still a lot of data! How about pulling a summary instead?
+
+```{r}
+summary <- foldSeekR::pull_summary(qualifier = uniprot_accession)
+# Let's look at the first structure
+summary$structures[[1]]
+```
+
+Summary also contains Uniprot information.
+
+```{r}
+summary$uniprot_entry
+```
+
+But this data is pretty messy! And how much of it is useful? These functions primarily go into comparison features of this package.
+
+The currently built comparison feature is visualization.
+
+```{r}
+foldSeekR::visualize_prediction(qualifier = uniprot_accession)
+```
+
+This is the structure of the protein of interest. You can move the POV around with your cursor and resize the protein to get a closer look at the folds.
+
+At this point in development, foldSeekR is still under construction due to API issues in the newly-developed FoldSeek search server.
+
+## Coming Soon
+
+Local FASTA files or FASTA strings can be queried via FoldSeek using the following format to return the top-3 most similar results.
+
+```r
+foldseek(target = "./coolSequence.fasta", k = 3)
+```
+
+Similarly, using a Uniprot accession, foldseek() can handle pulling the FASTA itself, and still return the top-3 most similar results.
+
+```r
+foldseek(target = uniprot_accession, k = 5)
+```
+
+After having the following top-k most similar known protein structures to the target protein of interest, we can finally use the culmination of this package: visualize_foldseek().
+
+``` r
+folds <- foldseek(target = uniprot_accession, k = 3)
+visualize_foldseek(folds)
+```
+
+Using the same powerful visualization tools provided by bio3d and r3dmol, we can visualize all angles of each protein simultaneously. The colour scheme marks the folds that are the same for each of the foldseek returned proteins. We can even customize the colour scheme to highlight amino acids, or domains of interest.
+
+This functionality was not able to be completed for the first iteration of foldSeek due to time constraint, but will be available in the next version.
+
