@@ -70,6 +70,10 @@ visualization is illustrated below.
 
 ![](./inst/extdata/visualization.png)
 
+An image of the workflow of foldSeekR is illustrated below.
+
+![](./inst/extdata/foldseek_overview.png)
+
 ## Contributions
 
 The author of the package is Annabella Bregazzi.
