@@ -9,15 +9,15 @@
 ## Description
 
 `foldSeekR` is an R package designed to streamline protein structure
-predictions via AlphaFold () and architecture comparisons via FoldSeek
-(<https://www.foldseek.com>). foldSeekR uses Uniprot accession ID’s or
-FASTA files or strings to search structure similarities on AlphaFold. It
-uses FoldSeek to query the AlphaFold database for the most similar
-protein architectures to the protein structure of interest. It provides
-visualization of the protein of interest and the similar proteins with
-highlighted regions similar to the target protein. `foldSeekR` was
-developed using `R version 4.4.1 (2024-06-14)`,
-`Platform: aarch64-apple-darwin20` and
+predictions via AlphaFold (<https://alphafold.ebi.ac.uk/>) and
+architecture comparisons via FoldSeek (<https://www.foldseek.com>).
+foldSeekR uses Uniprot accession ID’s or FASTA files or strings to
+search structure similarities on AlphaFold. It uses FoldSeek to query
+the AlphaFold database for the most similar protein architectures to the
+protein structure of interest. It provides visualization of the protein
+of interest and the similar proteins with highlighted regions similar to
+the target protein. `foldSeekR` was developed using
+`R version 4.4.1 (2024-06-14)`, `Platform: aarch64-apple-darwin20` and
 `Running under: macOS Sonoma 14.6.1`.
 
 ## Installation
@@ -36,7 +36,6 @@ To run the shinyApp: Under construction
 
 ``` r
 ls("package:foldSeekR")
-data(package = "foldSeekR") # optional
 browseVignettes("foldSeekR")
 ```
 
