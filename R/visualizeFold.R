@@ -1,4 +1,6 @@
 
+#' Visualizes a Prediction
+#'
 #' Produces a visual of the AlphaFold prediction for this Uniprot accession.
 #'
 #' @param qualifier A Uniprot Accession number (numeric or string).
@@ -23,6 +25,7 @@ visualize_prediction <- function(qualifier) {
   }
 
   prediction <- pull_prediction(qualifier)
+  cache <- BiocFileCache()
 
   pdb_url <- prediction[[1]]$pdbUrl
   pdb_file <- BiocFileCache::bfcrpath(cache, rnames = basename(pdb_url), fpath = pdb_url)

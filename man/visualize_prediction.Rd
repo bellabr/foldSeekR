@@ -2,12 +2,17 @@
 % Please edit documentation in R/visualizeFold.R
 \name{visualize_prediction}
 \alias{visualize_prediction}
-\title{Produces a visual of the AlphaFold prediction for this Uniprot accession.}
+\title{Visualizes a Prediction}
 \usage{
 visualize_prediction(qualifier)
 }
 \arguments{
 \item{qualifier}{A Uniprot Accession number (numeric or string).}
+}
+\value{
+A r3dmol object which displays itself in the Viewer tab showing the
+protein of interest structure spinning. Different types of helices, and folds
+are coloured separately. The 3D-representation is interactable with the cursor.
 }
 \description{
 Produces a visual of the AlphaFold prediction for this Uniprot accession.
