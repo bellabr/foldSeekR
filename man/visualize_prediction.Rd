@@ -2,12 +2,12 @@
 % Please edit documentation in R/visualizeFold.R
 \name{visualize_prediction}
 \alias{visualize_prediction}
-\title{Visualizes a Prediction}
+\title{Visualizes a Prediction.}
 \usage{
-visualize_prediction(qualifier)
+visualize_prediction(accession)
 }
 \arguments{
-\item{qualifier}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession number (numeric or string).}
 }
 \value{
 A r3dmol object which displays itself in the Viewer tab showing the
@@ -19,6 +19,6 @@ Produces a visual of the AlphaFold prediction for this Uniprot accession.
 }
 \examples{
 # Example 1
-visualize_prediction(qualifier = "P00520")
+visualize_prediction("P00520")
 
 }

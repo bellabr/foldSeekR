@@ -4,10 +4,10 @@
 \alias{pull_prediction}
 \title{Pulls the AlphaFold protein structure prediction information.}
 \usage{
-pull_prediction(qualifier)
+pull_prediction(accession)
 }
 \arguments{
-\item{qualifier}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession number (numeric or string).}
 }
 \value{
 The JSON body returned as a list whereby prediction[\link{1}] contains
@@ -20,6 +20,6 @@ Pulls the AlphaFold protein structure prediction information.
 }
 \examples{
 # Example 1
-pull_prediction(qualifier = "P00520")
+pull_prediction("P00520")
 
 }

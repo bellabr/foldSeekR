@@ -4,10 +4,10 @@
 \alias{pull_summary}
 \title{Pulls the AlphaFold protein structure summary information.}
 \usage{
-pull_summary(qualifier)
+pull_summary(accession)
 }
 \arguments{
-\item{qualifier}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession number (numeric or string).}
 }
 \value{
 The JSON body returned as a list whereby summary contains two
@@ -20,6 +20,6 @@ Pulls the AlphaFold protein structure summary information.
 }
 \examples{
 # Example 1
-pull_summary(qualifier = "P00520")
+pull_summary("P00520")
 
 }

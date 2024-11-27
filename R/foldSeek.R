@@ -1,43 +1,86 @@
 
-FOLDSEEK = "https://search.foldseek.com/api/ticket/"
-MMSEQS = "https://search.mmseqs.com/api/"
+FOLDSEEK_API = "https://search.foldseek.com/api"
 
 
-# curl -X POST -F q="./tests/testthat/Q40674.fasta" -F 'mode=3diaa' -F 'database[]=afdb50' -F 'database[]=afdb-swissprot' -F 'database[]=afdb-proteome' -F 'database[]=bfmd' -F 'database[]=cath50' -F 'database[]=mgnify_esm30' -F 'database[]=pdb100' -F 'database[]=gmgcl_id' https://search.foldseek.com/api/ticket
+#' Displays databases available in FoldSeek.
+#'
+#' Displays the available databases for the FoldSeek query.
+#'
+#' @returns A list with headers name, version, and path corresponding to each
+#' available database's name, version, and path for the search query.
+#'
+#' @examples
+#' # Example 1
+#' available_databases()
+#'
+#' @export
+#' @import httr2
+#' @import jsonlite
+available_databases <- function() {
+  API = file.path(FOLDSEEK_API, "databases")
 
-ticket <- function(filepath,
-                   databases = c('afdb50',
-                                 'afdb-swissprot',
-                                 'afdb-proteome',
-                                 'bfmd',
-                                 'cath50',
-                                 'mgnify_esm30',
-                                 'pdb100',
-                                 'gmgcl_id')) {
-  if (!requireNamespace("httr2", quietly = TRUE) ||
-      !requireNamespace("jsonlite", quietly = TRUE)) {
-    stop("`ticket()` requires packages 'httr2', 'jsonlite")
+  # format request
+  req <- httr2::request(API) %>%
+    httr2::req_headers(
+      "Accept" = "*/*"
+    )
+  # perform request
+  resp <- req %>%
+    httr2::req_error(is_error = \(resp) FALSE) %>%
+    httr2::req_perform()
+
+  if (httr2::resp_status(resp) < 400L) {
+    # pull json
+    resp_body <- httr2::resp_body_string(resp)
+    body <- jsonlite::fromJSON(resp_body)$databases
+    return(body[1:3])
+  } else {
+    stop("API request failed.")
   }
-  dbs_vec <- paste("database[]=", databases, sep="")
-  dbs_str <- paste(dbs_vec, collapse = "' -F '")
-
-  url <- paste("curl -X POST -F q=", filepath, " -F 'mode=3diaa' -F '",
-               dbs_str, "' ", FOLDSEEK)
+}
 
 
-  # body <- c(
-  #   "q" = filepath,
-  #   "database[]" = as.list(databases),
-  #   "mode" = "3diaa",
-  #   "email" = "nil"
-  # )
-  # body_json <- jsonlite::toJSON(body)
-  # print(body_json)
+#' Submits a job.
+#'
+#' Submits a job to the FoldSeek Search Server via API against all available
+#' databases.
+#'
+#' @param filepath A filepath to a CIF or PDB file, or a string containing the
+#' information in said file.
+#'
+#' @returns Ticket ID corresponding to submitted job.
+#'
+#' @examples
+#' # Example 1
+#' ticket("./test.cif")
+#'
+#' # Example 2
+#' ticket("./test.pdb")
+#'
+#' @export
+#' @import curl
+#' @import httr2
+#' @import jsonlite
+ticket <- function(filepath) {
+  # if (!requireNamespace("httr2", quietly = TRUE) ||
+  #     !requireNamespace("jsonlite", quietly = TRUE) ||
+  #     !requireNamespace("curl", quietly = TRUE)) {
+  #   stop("`ticket()` requires packages 'curl', 'httr2', 'jsonlite")
+  # }
 
-  filesplit = strsplit(filepath, split = "/")
-  filename = tail(filesplit[[1]], n=1)
+  databases <- foldSeekR::available_databases()$path
 
-  req <- httr2::request(FOLDSEEK) %>%
+  # TODO: filepath or string contents ?
+  filename = basename(filepath)
+
+  if (!(file.exists(filepath))) {
+    stop("File does not exist. Check your filetype/filepath.")
+  }
+
+  API = file.path(FOLDSEEK_API, "ticket")
+
+  # format request
+  req <- httr2::request(API) %>%
     httr2::req_headers(
       "Content-Type" = "multipart/form-data",
       "Accept" = "*/*"
@@ -45,98 +88,153 @@ ticket <- function(filepath,
     httr2::req_body_multipart(
       "q" = curl::form_file(
         path = filepath,
-        type = "fasta",
-        name = filename
+        name = basename(filepath)
       ),
-      "database[]" = curl::form_data(databases),
-      "mode" = "3diaa",
-      "email" = "nil"
-    )
-  fasta = ">FASTA\nMPKIIEAIYENGVFKPLQKVDLKEGE\n"
-  req <- httr2::request(FOLDSEEK) %>%
-    httr2::req_headers(
-      "Content-Type" = "application/x-www-form-urlencoded",
-      "Accept" = "*/*"
-    ) %>%
-    httr2::req_body_multipart(
-      "q" = fasta,
-      "database[]" = curl::form_data(databases),
-      "mode" = "3diaa",
-      "email" = "nil"
+      "database[]" = databases[1],
+      "database[]" = databases[2],
+      "database[]" = databases[3],
+      "database[]" = databases[4],
+      "database[]" = databases[5],
+      "database[]" = databases[6],
+      "database[]" = databases[7],
+      "database[]" = databases[8],
+      "database[]" = databases[9],
+      "mode" = "3diaa"
     )
 
-  # print(req)
-  resp <- req %>% httr2::req_perform()
-  return(resp)
-
+  # perform request
   resp <- req %>%
     httr2::req_error(is_error = \(resp) FALSE) %>%
     httr2::req_perform()
 
   if (httr2::resp_status(resp) < 400L) {
-    body <- httr2::resp_body_json(resp)
+    # pull json
+    resp_body <- httr2::resp_body_string(resp)
+    body <- jsonlite::fromJSON(resp_body)$id
+
     return(body)
   } else {
-    stop("Job submission failed. Check your filetype, filepath, and/or databases.")
+    stop("Request failed.")
   }
-
-
-
-
-
-
-  h <- curl::new_handle()
-  curl::handle_setform(h,
-                       q = curl::form_file(filepath),
-                       mode = '3diaa',
-                       database = curl::form_data(serialize(databases, NULL), "list")
-  )
-  curl::handle_setheaders(h, "Content-Type" = "multipart/form-data")
-  req <- curl::curl_fetch_memory(FOLDSEEK, handle = h)
-
-  parse_headers(req$headers)
-  cat(rawToChar(req$content))
-  str(req)
-
-
-
-  if (httr2::resp_status(resp) < 400L) {
-    body <- httr2::resp_body_json(resp)
-    return(body)
-  } else {
-    stop("POST command failed. Check your filepath and database args.")
-  }
-
 }
 
 
-
-
-#' Queries the given Uniprot accession or FASTA file via FoldSeek and returns
-#' the top predictions for closest similarity in structure.
+#' Gets status of job.
 #'
-#' @param target A FASTA string or FASTA filepath, or a valid Uniprot Accession
-#' number (numeric or string).
-#' @param k The top k number of entries most similar to the file are returned.
+#' Returns status of the job for the specified ticket ID.
 #'
-#' @returns The k-JSON bodies for each of the resulting outputs from the query.
+#' @param ticket_id A ticket ID provided by the job submitted.
+#'
+#' @returns Status update corresponding to the ticket (ie. "PENDING", "ERROR",
+#' or "COMPLETE").
 #'
 #' @examples
 #' # Example 1
-#' foldseek(target = "./test.fasta", k = 3)
+#' status("G04AJT4Nl6Pk-o8VzLYklMyOKADAIZwUJvpIyA")
 #'
-#' # Example 2
-#' foldseek(target = "P00520", k = 5)
-#'
+#' @export
 #' @import httr2
-#' @import BiocFileCache
-foldseek <- function(target, k) {
+#' @import jsonlite
+status <- function(ticket_id) {
+  API = file.path(FOLDSEEK_API, "ticket", ticket_id)
 
-  # while ticket is not complete
-  # wait until result fetch goes through
-  # requires ticket to be completed above
+  # format request
+  req <- httr2::request(API) %>%
+    httr2::req_headers(
+      "Accept" = "*/*"
+    )
+  # perform request
+  resp <- req %>%
+    httr2::req_error(is_error = \(resp) FALSE) %>%
+    httr2::req_perform()
 
-
-
+  if (httr2::resp_status(resp) < 400L) {
+    # pull json
+    resp_body <- httr2::resp_body_string(resp)
+    body <- jsonlite::fromJSON(resp_body)$status
+    return(body)
+  } else {
+    stop("API request failed.")
+  }
 }
 
+
+#' Runs a FoldSeek job.
+#'
+#' Queries the given CIF, mmCIF or PDB file via FoldSeek and returns
+#' the job result for closest similarity in structure.
+#'
+#' @param filepath A filepath to a valid CIF, mmCIF, or PCB file of a protein
+#' of interest.
+#'
+#' @returns A job data frame of the format
+#'
+#'    $queries
+#'      $header : <target protein header>
+#'      $sequence : <target protein sequence>
+#'    $mode : <search mode>
+#'    $results :
+#'      $db : <databases>
+#'      $alignments : <hits for each database>
+#'        $query : <job>
+#'        $target : <hit protein name>
+#'        $seqId : <sequence identity>
+#'        $alnLength : <alignment length>
+#'        $missmatches : <number of mismatches>
+#'        $gapsopened : <number of gaps>
+#'        $qStartPos : <>
+#'        $qEndPos : <>
+#'        $dbStartPos : <>
+#'        $dbEndPos : <>
+#'        $prob : <>
+#'        $eval : <>
+#'        $score : <>
+#'        $qLen : <>
+#'        $aAln : <alignment q score>
+#'        $tCa :
+#'        $tSeq :
+#'        $taxId : <taxonomy id>
+#'        $taxName : <taxonomy name>
+#'
+#' @examples
+#' # Example 1
+#' foldseek("./path/to/test.cif")
+#'
+#' @export
+#' @import httr2
+#' @import jsonlite
+foldseek <- function(filepath) {
+
+  # TODO: accession compatibility
+  if (!(file.exists(filepath))) {
+    stop("File does not exist. Check your filetype/filepath.")
+  }
+
+  ticket_id <- ticket(filepath)
+  while(TRUE) {
+    if (status(ticket_id) == "COMPLETE") {
+      break
+    }
+  }
+
+  API = file.path(FOLDSEEK_API, "result", ticket_id, 1)
+
+  req <- httr2::request(API) %>%
+    httr2::req_headers(
+      "Accept" = "*/*"
+    )
+  result <- req %>%
+    httr2::req_error(is_error = \(resp) FALSE) %>%
+    httr2::req_perform()
+
+  if (httr2::resp_status(result) < 400L) {
+    # pull json
+    resp_body <- httr2::resp_body_string(result)
+    body <- jsonlite::fromJSON(resp_body)
+    return(body)
+  } else {
+    stop("Job failed.")
+  }
+}
+
+# [END]

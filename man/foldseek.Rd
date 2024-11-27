@@ -2,29 +2,50 @@
 % Please edit documentation in R/foldSeek.R
 \name{foldseek}
 \alias{foldseek}
-\title{Queries the given Uniprot accession or FASTA file via FoldSeek and returns
-the top predictions for closest similarity in structure.}
+\title{Runs a FoldSeek job.}
 \usage{
-foldseek(target, k)
+foldseek(filepath)
 }
 \arguments{
-\item{target}{A FASTA string or FASTA filepath, or a valid Uniprot Accession
-number (numeric or string).}
-
-\item{k}{The top k number of entries most similar to the file are returned.}
+\item{filepath}{A filepath to a valid CIF, mmCIF, or PCB file of a protein
+of interest.}
 }
 \value{
-The k-JSON bodies for each of the resulting outputs from the query.
+A job data frame of the format
+
+$queries
+$header : \if{html}{\out{<target protein header>}}
+$sequence : \if{html}{\out{<target protein sequence>}}
+$mode : \if{html}{\out{<search mode>}}
+$results :
+$db : \if{html}{\out{<databases>}}
+$alignments : \if{html}{\out{<hits for each database>}}
+$query : \if{html}{\out{<job>}}
+$target : \if{html}{\out{<hit protein name>}}
+$seqId : \if{html}{\out{<sequence identity>}}
+$alnLength : \if{html}{\out{<alignment length>}}
+$missmatches : \if{html}{\out{<number of mismatches>}}
+$gapsopened : \if{html}{\out{<number of gaps>}}
+$qStartPos : <>
+$qEndPos : <>
+$dbStartPos : <>
+$dbEndPos : <>
+$prob : <>
+$eval : <>
+$score : <>
+$qLen : <>
+$aAln : \if{html}{\out{<alignment q score>}}
+$tCa :
+$tSeq :
+$taxId : \if{html}{\out{<taxonomy id>}}
+$taxName : \if{html}{\out{<taxonomy name>}}
 }
 \description{
-Queries the given Uniprot accession or FASTA file via FoldSeek and returns
-the top predictions for closest similarity in structure.
+Queries the given CIF, mmCIF or PDB file via FoldSeek and returns
+the job result for closest similarity in structure.
 }
 \examples{
 # Example 1
-foldseek(target = "./test.fasta", k = 3)
-
-# Example 2
-foldseek(target = "P00520", k = 5)
+foldseek("./path/to/test.cif")
 
 }

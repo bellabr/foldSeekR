@@ -1,0 +1,13 @@
+citHeader("To cite foldSeekR in publications use:")
+
+citEntry(
+  entry    = "Unpublished",
+  title    = "foldSeekR: FoldSeek and AlphaFold integration",
+  author   = "Annabella Bregazzi",
+  note     = "Unpublished",
+  year     = "2024",
+
+  textversion =
+    paste("Bregazzi, A. (2024) foldSeekR: FoldSeek and AlphaFold integration.
+        Unpublished. URL https://github.com/bellabr/foldSeekR.")
+)

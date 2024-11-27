@@ -2,20 +2,19 @@
 % Please edit documentation in R/visualizeFold.R
 \name{visualize_foldseeks}
 \alias{visualize_foldseeks}
-\title{Produces a visual of the AlphaFold prediction and the closest FoldSeek
-predictions for this Uniprot accession.}
+\title{Visualizes FoldSeek Predictions.}
 \usage{
-visualize_foldseeks(qualifier)
+visualize_foldseeks(accession)
 }
 \arguments{
-\item{qualifier}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession number (numeric or string).}
 }
 \description{
 Produces a visual of the AlphaFold prediction and the closest FoldSeek
-predictions for this Uniprot accession.
+predictions for this accession.
 }
 \examples{
 # Example 1
-visualize_foldseeks(qualifier = "P00520")
+visualize_foldseeks("P00520", 3)
 
 }
