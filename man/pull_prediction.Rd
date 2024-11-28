@@ -2,18 +2,16 @@
 % Please edit documentation in R/alphaFold.R
 \name{pull_prediction}
 \alias{pull_prediction}
-\title{Pulls the AlphaFold protein structure prediction information.}
+\title{Pulls AlphaFold Prediction.}
 \usage{
 pull_prediction(accession)
 }
 \arguments{
-\item{accession}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession string.}
 }
 \value{
-The JSON body returned as a list whereby prediction[\link{1}] contains
-the object for the predicted protein architecture. Notably, prediction[\link{1}]
-contains entries for entryId, gene, pdbUrl, cifUrl, paeImageUrl, and
-uniprotSequence.
+A JSON body containing the predicted protein architecture including
+entries for gene, pdbUrl, cifUrl, paeImageUrl, and uniprotSequence.
 }
 \description{
 Pulls the AlphaFold protein structure prediction information.

@@ -13,36 +13,38 @@ of interest.}
 \value{
 A job data frame of the format
 
-$queries
-$header : \if{html}{\out{<target protein header>}}
-$sequence : \if{html}{\out{<target protein sequence>}}
-$mode : \if{html}{\out{<search mode>}}
+\if{html}{\out{<div class="sourceCode">}}\preformatted{$queries
+  $header : <target protein header>
+  $sequence : <target protein sequence>
+$mode : <search mode>
 $results :
-$db : \if{html}{\out{<databases>}}
-$alignments : \if{html}{\out{<hits for each database>}}
-$query : \if{html}{\out{<job>}}
-$target : \if{html}{\out{<hit protein name>}}
-$seqId : \if{html}{\out{<sequence identity>}}
-$alnLength : \if{html}{\out{<alignment length>}}
-$missmatches : \if{html}{\out{<number of mismatches>}}
-$gapsopened : \if{html}{\out{<number of gaps>}}
-$qStartPos : <>
-$qEndPos : <>
-$dbStartPos : <>
-$dbEndPos : <>
-$prob : <>
-$eval : <>
-$score : <>
-$qLen : <>
-$aAln : \if{html}{\out{<alignment q score>}}
-$tCa :
-$tSeq :
-$taxId : \if{html}{\out{<taxonomy id>}}
-$taxName : \if{html}{\out{<taxonomy name>}}
+  $db : <databases>
+  $alignments : <hits for each database>
+    $query : <job>
+    $target : <hit protein name>
+    $seqId : <sequence identity>
+    $alnLength : <alignment length>
+    $missmatches : <number of mismatches>
+    $gapsopened : <number of gaps>
+    $qStartPos : <>
+    $qEndPos : <>
+    $dbStartPos : <>
+    $dbEndPos : <>
+    $prob : <>
+    $eval : <>
+    $score : <>
+    $qLen : <>
+    $aAln : <alignment q score>
+    $tCa : <>
+    $tSeq : <>
+    $taxId : <taxonomy id>
+    $taxName : <taxonomy name>```
+}\if{html}{\out{</div>}}
 }
 \description{
 Queries the given CIF, mmCIF or PDB file via FoldSeek and returns
-the job result for closest similarity in structure.
+the job result for closest similarity in structure. This handles the ticket
+and status portion.
 }
 \examples{
 # Example 1

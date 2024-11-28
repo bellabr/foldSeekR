@@ -54,11 +54,16 @@ visualize_prediction <- function(accession) {
 #' predictions for this accession.
 #'
 #' @param accession A Uniprot Accession number (numeric or string).
+#' @param cache A cache summary created by caching a number of top hits via
+#' `cache_top_hits()`.
 #'
 #' @examples
 #' # Example 1
-#' visualize_foldseeks("P00520")
+#' job <- foldseek("./path/to/test.cif")
+#' cache <- cache_top_hits(job, 3, "P00520")
+#' visualize_foldseeks("P00520", cache)
 #'
+#' @export
 #' @import bio3d
 #' @import r3dmol
 #' @import BiocFileCache

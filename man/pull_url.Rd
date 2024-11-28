@@ -2,12 +2,12 @@
 % Please edit documentation in R/alphaFold.R
 \name{pull_url}
 \alias{pull_url}
-\title{Pulls the URL for the protein.}
+\title{Pulls URL for the Accession.}
 \usage{
 pull_url(accession, url_type)
 }
 \arguments{
-\item{accession}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession string.}
 
 \item{url_type}{The file type for the file associated with the url.}
 }

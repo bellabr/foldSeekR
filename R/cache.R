@@ -5,11 +5,13 @@
 #' supported due to the constraints of varying fragile database architectures
 #' is AlphaFold Database Proteome.
 #'
-#' @param job A job run via the foldseek() function.
+#' @param job A job run via the `foldseek()` function.
 #' @param k Number of top hits to save for visualization.
 #' @param accession The Uniprot Accession associated with the storage location.
 #'
-#' @returns .
+#' @returns A cache summary in a list with the name being the cache name and the
+#' value being the location of the object within the cache. This is for use
+#' in `visualize_foldseek`.
 #'
 #' @examples
 #' # Example 1

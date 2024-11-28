@@ -2,18 +2,16 @@
 % Please edit documentation in R/alphaFold.R
 \name{pull_summary}
 \alias{pull_summary}
-\title{Pulls the AlphaFold protein structure summary information.}
+\title{Pulls AlphaFold Summary.}
 \usage{
 pull_summary(accession)
 }
 \arguments{
-\item{accession}{A Uniprot Accession number (numeric or string).}
+\item{accession}{A Uniprot Accession string.}
 }
 \value{
-The JSON body returned as a list whereby summary contains two
-headers: $structures and $uniprot_entry. These headers contain information
-about the structure produced (including urls on where to find them) and
-information about the Uniprot accession entry respectively.
+A JSON body containing the predicted protein architecture under
+two headers: \code{structures} and \code{uniprot_entry}.
 }
 \description{
 Pulls the AlphaFold protein structure summary information.

@@ -50,26 +50,35 @@ browseVignettes("foldSeekR")
 `foldSeekR` contains 3 functions in the current version.
 
 - `pull_prediction` for pulling protein architecture prediction
-  information from AlphaFold including sequential information and links
-  to downloadable data files (PDB, CIF, or mmCIF).
+  information from AlphaFold including sequential information.
 
 - `pull_summary` for pulling protein summary information from AlphaFold
   including Uniprot information and structural information.
 
+- `pull_url` for retrieving the links to downloadable data files (PDB,
+  CIF, or mmCIF) for the specified accession.
+
+- `available_databases` for retrieving the databases available to be
+  searched for structure similarity.
+
+- `ticket` for submitting a FoldSeek job and retrieving a ticket.
+
+- `status` for checking the status of the job submission.
+
+- `foldseek` for submitting a job, handling the ticket, and retrieving
+  information from the search query.
+
+- `cache_top_hits` for caching a number of top hits with respect to
+  sequence similarity for later use.
+
+- `clear_cache` for clearing the cache for a given accession thread.
+
 - `visualize_prediction` for producing an interactive and colourful
   visualization of the protein of interest.
 
-The 2 functions currently under construction and being developed for the
-upcoming version are as follows.
-
-- `foldseek` for querying the protein of interest or sequence of
-  interest (FASTA) via FoldSeek to find the most structurally similar
-  protein architectures available in the 8 databases supported by
-  FoldSeek.
-
-- `visualize_foldseek` for producing an interactive and colourful
-  visualization of the protein of interest compared to the most similar
-  proteins of interest found by `foldseek`. The visualizations are
+- `visualize_foldseeks` for producing an interactive and colourful
+  visualization of the protein of interest compared to the cached top
+  hits for similar proteins in structure. The visualizations are
   side-by-side and interact together, in addition to being colour-coded
   by each region of similarity to the target protein of interest.
 
@@ -83,12 +92,38 @@ An image outlining the workflow of foldSeekR is illustrated below.
 
 The author of the package is Annabella Bregazzi.
 
-The author wrote the pull_prediction function, which makes use of httr2.
+The author wrote the pull_prediction function, which makes use of httr2,
+jsonlite.
 
-The author wrote the pull_summary function, which makes use of httr2.
+The author wrote the pull_summary function, which makes use of httr2,
+jsonlite.
+
+The author wrote the pull_url function, which makes use of httr2,
+jsonlite.
+
+The author wrote the available_databases function, which makes use of
+httr2, jsonlite.
+
+The author wrote the ticket function, which makes use of httr2,
+jsonlite, curl.
+
+The author wrote the status function, which makes use of httr2,
+jsonlite.
+
+The author wrote the foldseek function, which makes use of httr2,
+jsonlite.
+
+The author wrote the cache_top_hits function, which makes use of
+BiocFileCache.
+
+The author wrote the clear_cache function, which makes use of
+BiocFileCache.
 
 The author wrote the visualize_prediction function, which makes use of
-BiocFileCache, r3dmol, and bio3d.
+BiocFileCache, r3dmol, bio3d.
+
+The author wrote the visualize_foldseeks function, which makes use of
+BiocFileCache, r3dmol, bio3d.
 
 No generative AI tools were used in the development of this package.
 
@@ -118,6 +153,9 @@ No generative AI tools were used in the development of this package.
   J., Levy, E., and Steinegger, M. (2024). Rapid and Sensitive Protein
   Complex Alignment with Foldseek-Multimer. *bioRxiv* 2024.04.14.589414.
   <https://www.biorxiv.org/content/10.1101/2024.04.14.589414v1>.
+
+- Ooms J (2024). curl: A Modern and Flexible Web Client for R. R package
+  version 6.0.2, <https://github.com/jeroen/curl>.
 
 - Shepherd L, Morgan M (2024). BiocFileCache: Manage Files Across
   Sessions. R package version 2.14.0.

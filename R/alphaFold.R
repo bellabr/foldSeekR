@@ -2,14 +2,14 @@
 ALPHAFOLD_API = "https://alphafold.ebi.ac.uk/api"
 
 
+#' Pulls AlphaFold Prediction.
+#'
 #' Pulls the AlphaFold protein structure prediction information.
 #'
 #' @param accession A Uniprot Accession string.
 #'
-#' @returns The JSON body returned as a list whereby prediction[[1]] contains
-#' the object for the predicted protein architecture. Notably, prediction[[1]]
-#' contains entries for entryId, gene, pdbUrl, cifUrl, paeImageUrl, and
-#' uniprotSequence.
+#' @returns A JSON body containing the predicted protein architecture including
+#' entries for gene, pdbUrl, cifUrl, paeImageUrl, and uniprotSequence.
 #'
 #' @examples
 #' # Example 1
@@ -37,14 +37,14 @@ pull_prediction <- function(accession) {
 }
 
 
+#' Pulls AlphaFold Summary.
+#'
 #' Pulls the AlphaFold protein structure summary information.
 #'
 #' @param accession A Uniprot Accession string.
 #'
-#' @returns The JSON body returned as a list whereby summary contains two
-#' headers: $structures and $uniprot_entry. These headers contain information
-#' about the structure produced (including urls on where to find them) and
-#' information about the Uniprot accession entry respectively.
+#' @returns A JSON body containing the predicted protein architecture under
+#' two headers: `structures` and `uniprot_entry`.
 #'
 #' @examples
 #' # Example 1
@@ -73,7 +73,7 @@ pull_summary <- function(accession) {
 }
 
 
-#' Pulls the URL for the protein.
+#' Pulls URL for the Accession.
 #'
 #' Pulls the AlphaFold protein structure prediction URL for the protein
 #' associated with the Uniprot Accession.

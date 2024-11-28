@@ -4,10 +4,13 @@
 \alias{visualize_foldseeks}
 \title{Visualizes FoldSeek Predictions.}
 \usage{
-visualize_foldseeks(accession)
+visualize_foldseeks(accession, cache)
 }
 \arguments{
 \item{accession}{A Uniprot Accession number (numeric or string).}
+
+\item{cache}{A cache summary created by caching a number of top hits via
+\code{cache_top_hits()}.}
 }
 \description{
 Produces a visual of the AlphaFold prediction and the closest FoldSeek
@@ -15,6 +18,8 @@ predictions for this accession.
 }
 \examples{
 # Example 1
-visualize_foldseeks("P00520", 3)
+job <- foldseek("./path/to/test.cif")
+cache <- cache_top_hits(job, 3, "P00520")
+visualize_foldseeks("P00520", cache)
 
 }

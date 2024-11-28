@@ -2,7 +2,7 @@
 % Please edit documentation in R/foldSeek.R
 \name{ticket}
 \alias{ticket}
-\title{Submits a job.}
+\title{Submits a job to FoldSeek.}
 \usage{
 ticket(filepath)
 }

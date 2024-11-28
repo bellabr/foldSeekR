@@ -40,7 +40,7 @@ available_databases <- function() {
 }
 
 
-#' Submits a job.
+#' Submits a job to FoldSeek.
 #'
 #' Submits a job to the FoldSeek Search Server via API against all available
 #' databases.
@@ -162,13 +162,14 @@ status <- function(ticket_id) {
 #' Runs a FoldSeek job.
 #'
 #' Queries the given CIF, mmCIF or PDB file via FoldSeek and returns
-#' the job result for closest similarity in structure.
+#' the job result for closest similarity in structure. This handles the ticket
+#' and status portion.
 #'
 #' @param filepath A filepath to a valid CIF, mmCIF, or PCB file of a protein
 #' of interest.
 #'
 #' @returns A job data frame of the format
-#'
+#'    ```
 #'    $queries
 #'      $header : <target protein header>
 #'      $sequence : <target protein sequence>
@@ -191,10 +192,10 @@ status <- function(ticket_id) {
 #'        $score : <>
 #'        $qLen : <>
 #'        $aAln : <alignment q score>
-#'        $tCa :
-#'        $tSeq :
+#'        $tCa : <>
+#'        $tSeq : <>
 #'        $taxId : <taxonomy id>
-#'        $taxName : <taxonomy name>
+#'        $taxName : <taxonomy name>```
 #'
 #' @examples
 #' # Example 1

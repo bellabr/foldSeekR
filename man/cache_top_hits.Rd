@@ -4,25 +4,28 @@
 \alias{cache_top_hits}
 \title{Caches top hits for a job.}
 \usage{
-cache_top_hits(job, k, database, accession)
+cache_top_hits(job, k, accession)
 }
 \arguments{
-\item{job}{A job run via the foldseek() function.}
+\item{job}{A job run via the \code{foldseek()} function.}
 
 \item{k}{Number of top hits to save for visualization.}
 
-\item{database}{The database to pull the top hits from. Defaults to the first
-database in the job.}
+\item{accession}{The Uniprot Accession associated with the storage location.}
 }
 \value{
-.
+A cache summary in a list with the name being the cache name and the
+value being the location of the object within the cache. This is for use
+in \code{visualize_foldseek}.
 }
 \description{
-Saves the top hits to cache for visualization.
+Saves the top hits to cache for visualization. Currently, the only database
+supported due to the constraints of varying fragile database architectures
+is AlphaFold Database Proteome.
 }
 \examples{
 # Example 1
 job <- foldseek("./path/to/test.cif")
-cache_top_hits(job, 3)
+cache_top_hits(job, 3, "P00520")
 
 }
