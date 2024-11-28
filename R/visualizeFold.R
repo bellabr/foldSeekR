@@ -20,7 +20,7 @@
 #' @import BiocFileCache
 visualize_prediction <- function(accession) {
 
-  bfc <- BiocFileCache(accession)
+  bfc <- BiocFileCache(accession, ask=FALSE)
 
   pdb_url <- pull_url(accession, "pdb")
   pdb_file <- BiocFileCache::bfcrpath(bfc,

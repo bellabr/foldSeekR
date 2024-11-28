@@ -5,28 +5,20 @@ library(shiny)
 # define UI
 ui <- fluidPage(
   # change title
-  titlePanel("Displays similar protein architectures"),
+  titlePanel("FoldSeekR: Large protein architecture comparisons"),
 
   sidebarLayout(
     # sidebar panel
     sidebarPanel(
-      tags$p("Calculates BIC, ICL, and AIC values,  given log-likelihood,
-             number of clusters, dimension of dataset, and number of observations,
-             and the probability. See ?InfCriteriaCalculation for details
-             of arguments required. "),
+      tags$p("Retrieves the top-k most similar architectures to your
+             Uniprot accession identifier and displays them."),
 
       tags$p("Enter or select values required to perform analysis. Default
                         values are shown. Then press 'Run'."),
-      textInput(inputId = "logL",
-                label = "Enter loglikelihood value", "-5080"),
-      textInput(inputId = "nClusters",
-                label = "Enter nClusters (Note: nClusters and length(probability) should match):", "2"),
-      textInput(inputId = "dimensionality",
-                label = "Enter dimensionality of original dataset:", "6"),
-      textInput(inputId = "observations",
-                label = "Enter observations in original dataset:", "100"),
-      textInput(inputId = "probability",
-                label = "Enter probability of each cluster (Note, should sum to 1):", "0.5, 0.5"),
+      textInput(inputId = "accession",
+                label = "Accession:", "P00520"),
+      # textInput(inputId = "k",
+      #           label = "k (how many hits to display):", "3"),
 
       br(),
 
@@ -37,10 +29,10 @@ ui <- fluidPage(
 
     # main panel
     mainPanel(
-      #
+      # output tabs
       tabsetPanel(type = "tabs",
                   tabPanel("Output", verbatimTextOutput("textOut")),
-                  tabPanel("Plot", plotOutput("OuputPlot"))
+                  tabPanel("Folds", r3dmolOutput("OutputPlot", width = "100%", height = "400px"))
       )
     )
   )
@@ -48,29 +40,41 @@ ui <- fluidPage(
 
 # define server
 server <- function(input, output) {
-  # Calculate information criteria value
-  startcalculation <- eventReactive(eventExpr = input$button2, {
 
-    TestingPackage::InfCriteriaCalculation(
-      loglikelihood = as.numeric(input$logL),
-      nClusters = as.numeric(input$nClusters),
-      dimensionality = as.numeric(input$dimensionality),
-      observations = as.numeric(input$observations),
-      probability = as.numeric(unlist(strsplit(input$probability, ","))))
+  startrun <- eventReactive(eventExpr = input$button2, {
+
+    prediction <- foldSeekR::pull_prediction(
+      accession = input$accession
+    )
+
+    pdb_url <- foldSeekR::pull_url(
+      accession = input$accession,
+      url_type = "pdb"
+    )
+
+    c(prediction, pdb_url)
+
+  })
+
+  startplot <- eventReactive(eventExpr = input$button2, {
+
+    vis <- foldSeekR::visualize_prediction(
+      accession = input$accession
+    )
+    vis
 
   })
 
   # Textoutput
   output$textOut <- renderPrint({
-    if (! is.null(startcalculation))
-      startcalculation()
+    if (! is.null(startrun))
+      startrun()
   })
 
-
   # Plotting
-  output$OuputPlot <- renderPlot({
-    if (! is.null(startcalculation))
-      TestingPackage::InfCriteriaPlot(infValues =  startcalculation())
+  output$OutputPlot <- renderR3dmol({
+    if (! is.null(startplot))
+      startplot()
   })
 
 }

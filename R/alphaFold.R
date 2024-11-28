@@ -19,9 +19,6 @@ ALPHAFOLD_API = "https://alphafold.ebi.ac.uk/api"
 #' @import httr2
 #' @import jsonlite
 pull_prediction <- function(accession) {
-  if (!requireNamespace("httr2", quietly = TRUE)) {
-    stop("`prediction()` requires package 'httr2'")
-  }
 
   API = file.path(ALPHAFOLD_API, "prediction", accession)
   resp <- httr2::request(API) |>
@@ -54,9 +51,6 @@ pull_prediction <- function(accession) {
 #' @import httr2
 #' @import jsonlite
 pull_summary <- function(accession) {
-  if (!requireNamespace("httr2", quietly = TRUE)) {
-    stop("`prediction()` requires packages 'httr2'")
-  }
 
   url <- paste(ALPHAFOLD_API, "/uniprot/summary/", accession, ".json", sep="")
   resp <- httr2::request(url) |>

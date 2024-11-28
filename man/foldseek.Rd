@@ -7,8 +7,8 @@
 foldseek(filepath)
 }
 \arguments{
-\item{filepath}{A filepath to a valid CIF, mmCIF, or PCB file of a protein
-of interest.}
+\item{filepath}{A  filepath to a valid CIF, mmCIF, or PDB file of a
+protein of interest.}
 }
 \value{
 A job data frame of the format

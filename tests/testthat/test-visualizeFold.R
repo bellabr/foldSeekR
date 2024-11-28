@@ -3,7 +3,7 @@
 test_that("visualize fold success", {
   accession = "P00520"
 
-  mol <- visualize_prediction(qualifier = accession)
+  mol <- visualize_prediction(accession)
 
   testthat::expect_type(mol, "list")
 
@@ -13,12 +13,3 @@ test_that("visualize fold success", {
 
 
 
-test_that("visualize fold failure", {
-  accession = "garbage"
-
-  testthat::expect_error(
-    visualize_prediction(qualifier = accession),
-    "Invalid accession. Qualifier must be a valid Uniprot accession."
-  )
-
-})

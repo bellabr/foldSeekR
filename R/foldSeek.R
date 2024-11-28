@@ -165,8 +165,8 @@ status <- function(ticket_id) {
 #' the job result for closest similarity in structure. This handles the ticket
 #' and status portion.
 #'
-#' @param filepath A filepath to a valid CIF, mmCIF, or PCB file of a protein
-#' of interest.
+#' @param filepath A  filepath to a valid CIF, mmCIF, or PDB file of a
+#' protein of interest.
 #'
 #' @returns A job data frame of the format
 #'    ```
@@ -206,16 +206,21 @@ status <- function(ticket_id) {
 #' @import jsonlite
 foldseek <- function(filepath) {
 
-  # TODO: accession compatibility
-  if (!(file.exists(filepath))) {
-    stop("File does not exist. Check your filetype/filepath.")
-  }
+  # datapath <- file.path("./data/", accession)
+  # if (!(file.exists(datapath))) {
+  #   pdb_url <- pull_url(accession, "pdb")
+  #   bfc <- BiocFileCache(file.path("./data/", accession), ask=FALSE)
+  #   filepath <- BiocFileCache::bfcrpath(bfc, accession, pdb_url)
+  # } else {
+  #   filepath <- accession
+  # }
 
   ticket_id <- ticket(filepath)
   while(TRUE) {
     if (status(ticket_id) == "COMPLETE") {
       break
     }
+    cat("Pending...")
   }
 
   API = file.path(FOLDSEEK_API, "result", ticket_id, 1)

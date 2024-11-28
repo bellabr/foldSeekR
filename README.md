@@ -157,6 +157,10 @@ No generative AI tools were used in the development of this package.
 - Ooms J (2024). curl: A Modern and Flexible Web Client for R. R package
   version 6.0.2, <https://github.com/jeroen/curl>.
 
+- Ooms J (2014). “The jsonlite Package: A Practical and Consistent
+  Mapping Between JSON Data and R Objects.” arXiv:1403.2805 \[stat.CO\].
+  <https://arxiv.org/abs/1403.2805>.
+
 - Shepherd L, Morgan M (2024). BiocFileCache: Manage Files Across
   Sessions. R package version 2.14.0.
 

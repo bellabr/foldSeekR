@@ -24,4 +24,5 @@ Imports:
     BiocFileCache,
     curl,
     httr2,
+    jsonlite,
     r3dmol

@@ -45,66 +45,74 @@ ls("package:foldSeekR")
 library(foldSeekR)
 ```
 
-Let's take a look at a significant protein in clozapine-induced myocarditis.
+Let's take a look at a tyrosine-kinase in mice.
 
 Using the Uniprot accession of interest for this protein, you can pull the AlphaFold prediction.
 
 ```{r}
-uniprot_accession = "Q40674"
-
-foldSeekR::pull_prediction(qualifier = uniprot_accession)[[1]]
+uniprot_accession = "P00520"
+prediction <- pull_prediction(uniprot_accession)
+prediction$gene
 ```
 
-So this is the link to get the PDB for this protein! Now we know!  https://alphafold.ebi.ac.uk/files/AF-Q40674-F1-model_v4.pdb 
-
-It's still a lot of data! How about pulling a summary instead?
-
 ```{r}
-summary <- foldSeekR::pull_summary(qualifier = uniprot_accession)
-# Let's look at the first structure
-summary$structures[[1]]
+prediction$organismScientificName
 ```
 
-Summary also contains Uniprot information.
-
 ```{r}
-summary$uniprot_entry
+prediction$uniprotSequence
 ```
 
-But this data is pretty messy! And how much of it is useful? These functions primarily go into comparison features of this package.
-
-The currently built comparison feature is visualization.
+There is a lot of data available here! For our purposes, we only need the URL for visualizing protein architecture.
 
 ```{r}
-foldSeekR::visualize_prediction(qualifier = uniprot_accession, cache=BiocFileCache())
+pdb_url <- pull_url(uniprot_accession, "pdb")
+pdb_url
+```
+
+You can also pull CIF files.
+
+```{r}
+cif_url <- pull_url(uniprot_accession, "cif")
+cif_url
+```
+
+We can visualize this prediction on its own.
+
+```{r}
+visualize_prediction(uniprot_accession)
 ```
 
 This is the structure of the protein of interest. You can move the POV around with your cursor and resize the protein to get a closer look at the folds.
 
-At this point in development, foldSeekR is still under construction due to API issues in the newly-developed FoldSeek search server.
+## Integration with FoldSeek
 
-## Coming Soon
+We can submit a job to the FoldSeek search server and wait for the request to be handled.
 
-Local FASTA files or FASTA strings can be queried via FoldSeek using the following format to return the top-3 most similar results.
+Due to the inability for vignettes to respond to allow for cache creation, these functions as follows are more difficult than necessary for workflow. The remainder of this tutorial should be performed in your console.
 
-```r
-foldseek(target = "./coolSequence.fasta", k = 3)
-```
+## Console workflow
 
-Similarly, using a Uniprot accession, foldseek() can handle pulling the FASTA itself, and still return the top-3 most similar results.
+For this job, the console will prompt you to allow it to create a temporary cache directory.
 
 ```r
-foldseek(target = uniprot_accession, k = 5)
+job <- foldseek("./data/test.cif")
 ```
 
-After having the following top-k most similar known protein structures to the target protein of interest, we can finally use the culmination of this package: visualize_foldseek().
+Now that we have the job results, we can cache the structure for the top similar hits we want to view.
 
-``` r
-folds <- foldseek(target = uniprot_accession, k = 3)
-visualize_foldseek(folds)
+```r
+cache <- cache_top_hits(job, 3, uniprot_accession)
 ```
 
-Using the same powerful visualization tools provided by bio3d and r3dmol, we can visualize all angles of each protein simultaneously. The colour scheme marks the folds that are the same for each of the foldseek returned proteins. We can even customize the colour scheme to highlight amino acids, or domains of interest.
+Now, with the cache summary, we can access the cached objects to display the most similar protein architectures.
 
-This functionality was not able to be completed for the first iteration of foldSeek due to time constraint, but will be available in the next version.
+```r
+visualize_foldseeks(uniprot_accession, cache)
+```
 
+This displays all proteins of interest aligned and together for visualization. This is the final goal of all functions within this package.
+
+Using the powerful visualization tools provided by bio3d and r3dmol, we can visualize all angles of each protein simultaneously. The colour scheme marks similar folds among the proteins.
+
+There is much more work that can be done to build upon this functionality, and much more quality control to be performed.
