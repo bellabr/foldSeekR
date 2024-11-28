@@ -48,6 +48,6 @@ and status portion.
 }
 \examples{
 # Example 1
-foldseek("./path/to/test.cif")
+foldseek("./data/test.cif")
 
 }

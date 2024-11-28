@@ -52,10 +52,7 @@ available_databases <- function() {
 #'
 #' @examples
 #' # Example 1
-#' ticket("./test.cif")
-#'
-#' # Example 2
-#' ticket("./test.pdb")
+#' ticket("./data/test.cif")
 #'
 #' @export
 #' @import curl
@@ -199,7 +196,7 @@ status <- function(ticket_id) {
 #'
 #' @examples
 #' # Example 1
-#' foldseek("./path/to/test.cif")
+#' foldseek("./data/test.cif")
 #'
 #' @export
 #' @import httr2
